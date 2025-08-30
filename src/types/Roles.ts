@@ -1,4 +1,4 @@
-const enum Roles {
+enum Roles {
     ADMIN = 'админ',
     USER = 'пользователь',
     GUEST = 'гость',
