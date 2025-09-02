@@ -73,29 +73,46 @@
             <option :value="role" v-for="(role, index) in roles">{{ role }}</option>
           </select>
         </div>
-        <button
-            type="submit"
-            class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
-            @click.prevent="addUser"
-        >
-          Добавить
-        </button>
+        <div class="flex items-center gap-3">
+
+          <button
+              type="submit"
+              class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+              @click.prevent="addUser"
+          >
+            Добавить
+          </button>
+          <button
+              id="counter-button"
+              type="submit"
+              class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+              @click.prevent="count++"
+          >
+            Counter
+          </button>
+        </div>
+        {{count}}
+
       </form>
     </section>
+
+    <test-component id="1"></test-component>
   </main>
 </template>
 <script setup lang="ts">
 import {Roles} from '@/types/Roles';
 import type {User} from '@/types/User.ts'
 import {ref} from 'vue';
+import TestComponent from "@/components/TestComponent.vue";
 
 // типизация моделек
 const email = ref<string>('');
+const count = ref<number>(0);
 const name = ref<string>('');
 const role = ref<Roles | null>(Roles.ADMIN);
 const users = ref<User[]>([]);
 const isEdit = ref<boolean>(false);
-const selectedUser = ref<number|null>(false);
+const selectedUser = ref<number | null>(null);
 const roles: object = Object.values(Roles)
 
 // метод добавления юзера
@@ -116,11 +133,13 @@ function addUser(): void {
 
 
 }
-function selectUser(number: index): void {
+
+function selectUser(index: number): void {
   isEdit.value = true;
   selectedUser.value = index
 
 }
+
 function deleteUser(index: number): void {
   users.value.splice(index, 1);
 }
